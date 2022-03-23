@@ -12,22 +12,39 @@ const Shop = () => {
             .then(data => setProducts(data))
     }, []);
     const [items, setItems] = useState([])
-    const handleAddToCart = (product) => {
-        setItems([...items, product])
-        addToLocalStorage(product.id)
+    const handleAddToCart = (selectedProduct) => {
+        let newCart = [];
+        const isExist = items.find(product => product.id === selectedProduct.id);
+        if (!isExist) {
+            selectedProduct.quantity = 1;
+            newCart = [...items, selectedProduct]
+        }
+        else {
+            const rest = items.filter(product => product.id !== selectedProduct.id);
+            isExist.quantity = isExist.quantity + 1;
+            newCart = [...rest, isExist]
+        }
+        setItems(newCart)
+        addToLocalStorage(selectedProduct.id)
     }
 
     useEffect(() => {
-        const storageCart = getStorageCart();
+        // get storage cart
+        const storageCart = getStorageCart()
+        // setting an empty array for pushing addedProduct and then it will be set as items in setItems function
         const savedCart = [];
+        // get property from storage cart by for in loop (because this is an object)
         for (const id in storageCart) {
-            // console.log(id)
+            // finding the products which have this id 
             const addedProduct = products.find(product => product.id === id)
             if (addedProduct) {
-                addedProduct.quantity = storageCart[id]
-                savedCart.push(addedProduct)
+                // changing the quantity
+                addedProduct.quantity = storageCart[id];
+                // pushing addedProduct in savedCart
+                savedCart.push(addedProduct);
             }
         }
+        // setting items value as savedCart
         setItems(savedCart)
     }, [products])
 
