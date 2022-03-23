@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { addToLocalStorage } from '../../utilities/localDb';
 import Order from '../Order/Order';
 import Product from '../Product/Product';
 import './Shop.css'
@@ -12,9 +13,8 @@ const Shop = () => {
     }, []);
     const [items, setItems] = useState([])
     const handleAddToCart = (product) => {
-        if (items.indexOf(product) < 0) {
-            setItems([...items, product])
-        }
+        setItems([...items, product])
+        addToLocalStorage(product.id)
     }
     return (
         <div className='shop-container'>
