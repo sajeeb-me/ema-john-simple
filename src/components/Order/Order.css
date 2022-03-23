@@ -1,0 +1,21 @@
+.order-summary{
+    padding: 15px;
+    position: sticky;
+    top: 0;
+}
+.order-title{
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 30px;
+    text-align: center;
+}
+.order-info{
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+}
+.order-total{
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 25px;
+}
