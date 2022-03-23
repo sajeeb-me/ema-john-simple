@@ -1,5 +1,6 @@
 // use local storage to manage cart data
-const addToLocalStorage = (id) => {
+
+const getStorageCart = () => {
     let cartValue = {}
 
     // get cart from local storage
@@ -8,7 +9,12 @@ const addToLocalStorage = (id) => {
         // make the cart parse for make editable. 
         cartValue = JSON.parse(findDb)
     }
+    return cartValue;
+}
 
+const addToLocalStorage = (id) => {
+
+    let cartValue = getStorageCart();
     // add quantity
     const itemCount = cartValue[id]
     if (itemCount) {
@@ -37,4 +43,8 @@ const removeFromStorage = (id) => {
     }
 }
 
-export { addToLocalStorage, removeFromStorage }
+export {
+    addToLocalStorage,
+    removeFromStorage,
+    getStorageCart
+}

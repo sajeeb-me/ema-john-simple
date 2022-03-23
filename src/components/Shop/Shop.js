@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { addToLocalStorage } from '../../utilities/localDb';
+import { addToLocalStorage, getStorageCart } from '../../utilities/localDb';
 import Order from '../Order/Order';
 import Product from '../Product/Product';
 import './Shop.css'
@@ -16,6 +16,21 @@ const Shop = () => {
         setItems([...items, product])
         addToLocalStorage(product.id)
     }
+
+    useEffect(() => {
+        const storageCart = getStorageCart();
+        const savedCart = [];
+        for (const id in storageCart) {
+            // console.log(id)
+            const addedProduct = products.find(product => product.id === id)
+            if (addedProduct) {
+                addedProduct.quantity = storageCart[id]
+                savedCart.push(addedProduct)
+            }
+        }
+        setItems(savedCart)
+    }, [products])
+
     return (
         <div className='shop-container'>
             <div className="product-container">
